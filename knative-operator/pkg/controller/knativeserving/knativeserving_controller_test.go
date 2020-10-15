@@ -46,6 +46,10 @@ var (
 						Status: "True",
 						Type:   "InstallSucceeded",
 					},
+					{
+						Status: "True",
+						Type:   "VersionMigrationEligible",
+					},
 				},
 			},
 		},
