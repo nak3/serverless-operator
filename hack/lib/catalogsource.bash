@@ -120,15 +120,15 @@ function add_user {
   pass=$2
 
   logger.info "Creating user $name:$pass"
-  if kubectl get secret htpass-secret -n openshift-config -o jsonpath='{.data.htpasswd}' 2>/dev/null | base64 -d > users.htpasswd; then
-    logger.info 'Secret htpass-secret already existsed, updating it.'
-    sed -i -e '$a\' users.htpasswd
-  else
-    touch users.htpasswd
-  fi
-
-  htpasswd -b users.htpasswd "$name" "$pass"
-
+#  if kubectl get secret htpass-secret -n openshift-config -o jsonpath='{.data.htpasswd}' 2>/dev/null | base64 -d > users.htpasswd; then
+#    logger.info 'Secret htpass-secret already existsed, updating it.'
+#    sed -i -e '$a\' users.htpasswd
+#  else
+#    touch users.htpasswd
+#  fi
+#
+#  htpasswd -b users.htpasswd "$name" "$pass"
+  cat "$(pwd)/users.htpasswd"
   kubectl create secret generic htpass-secret \
     --from-file=htpasswd="$(pwd)/users.htpasswd" \
     -n openshift-config \
