@@ -76,7 +76,7 @@ func makeRoute(ci *networkingv1alpha1.Ingress, host string, rule networkingv1alp
 
 	if _, ok := annotations[TimeoutAnnotation]; !ok {
 		// infinite timeout
-		annotations[TimeoutAnnotation] = "0s"
+		annotations[TimeoutAnnotation] = "600s"
 	}
 
 	labels := kmeta.UnionMaps(ci.Labels, map[string]string{
