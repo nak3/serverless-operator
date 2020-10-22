@@ -74,21 +74,9 @@ func makeRoute(ci *networkingv1alpha1.Ingress, host string, rule networkingv1alp
 		return nil, nil
 	}
 
-	if rule.HTTP != nil {
-		for i := range rule.HTTP.Paths {
-			if rule.HTTP.Paths[i].Timeout != nil {
-				// Supported time units for openshift route annotations are microseconds (us), milliseconds (ms), seconds (s), minutes (m), hours (h), or days (d)
-				// But the timeout value from ingress is in xmys(ex: 10m0s) format
-				// So, in order to make openshift route to work converting it into seconds.
-				annotations[TimeoutAnnotation] = fmt.Sprintf("%vs", rule.HTTP.Paths[i].Timeout.Duration.Seconds())
-			} else {
-				/* Currently v0.5.0 of serving code does not have "DefaultMaxRevisionTimeoutSeconds" So hard coding "timeout" value.
-				Once serving updated to latest version then will remove hard coded value and update with
-				annotations[TimeoutAnnotation] = fmt.Sprintf("%vs", config.DefaultMaxRevisionTimeoutSeconds) */
-				annotations[TimeoutAnnotation] = "600s"
-			}
-
-		}
+	if _, ok := annotations[TimeoutAnnotation]; !ok {
+		// infinite timeout
+		annotations[TimeoutAnnotation] = "0s"
 	}
 
 	labels := kmeta.UnionMaps(ci.Labels, map[string]string{
