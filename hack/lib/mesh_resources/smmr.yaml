@@ -18,3 +18,5 @@ spec:
   - knative-serving
   - serving-tests
   - serving-tests-alt
+  - serverless-tests
+  - serverless-tests2
