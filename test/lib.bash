@@ -105,6 +105,7 @@ function serverless_operator_kafka_e2e_tests {
 function downstream_serving_e2e_tests {
   declare -a kubeconfigs
   local kubeconfigs_str
+  local tags
 
   logger.info "Running Serving tests"
   kubeconfigs+=("${KUBECONFIG}")
@@ -116,7 +117,13 @@ function downstream_serving_e2e_tests {
   # Add system-namespace labels for TestNetworkPolicy and ServiceMesh tests.
   add_systemnamespace_label
 
-  go_test_e2e -failfast -timeout=60m -parallel=1 ./test/servinge2e \
+  tags="e2e,kourier"
+  if [[ $FULL_MESH == "true" ]]; then
+    tags="e2e"
+  fi
+
+  #go_test_e2e -failfast -tags="$tags" -timeout=60m -parallel=1 ./test/servinge2e \
+  go_test_e2e -tags="$tags" -timeout=60m -parallel=1 ./test/servinge2e \
     --kubeconfig "${kubeconfigs[0]}" \
     --kubeconfigs "${kubeconfigs_str}" \
     "$@"

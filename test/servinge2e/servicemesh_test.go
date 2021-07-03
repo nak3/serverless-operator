@@ -1,3 +1,5 @@
+// +build kourier
+
 package servinge2e
 
 import (

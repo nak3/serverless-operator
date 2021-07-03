@@ -56,11 +56,17 @@ test-unit:
 
 # Run only SERVING/EVENTING E2E tests from the current repo.
 test-e2e:
-	./test/e2e-tests.sh
+	# TODO: Revert this change before merge.
+	FULL_MESH=true ./test/e2e-tests.sh
+	# ./test/e2e-tests.sh
 
 # Run E2E tests from the current repo for serving+eventing+knativeKafka
 test-e2e-with-kafka:
 	INSTALL_KAFKA=true TEST_KNATIVE_KAFKA=true ./test/e2e-tests.sh
+
+# Run E2E tests from the current repo for serving+eventing+mesh
+test-e2e-with-mesh:
+	FULL_MESH=true ./test/e2e-tests.sh
 
 # Run both unit and E2E tests from the current repo.
 test-operator: test-unit test-e2e
