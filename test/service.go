@@ -181,6 +181,9 @@ func CreateDeployment(ctx *Context, name, namespace, image string) error {
 					Labels: map[string]string{
 						"app": name,
 					},
+					Annotations: map[string]string{
+						"sidecar.istio.io/inject": "true",
+					},
 				},
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
