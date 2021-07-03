@@ -165,6 +165,9 @@ func CreateDeployment(ctx *Context, name, namespace, image string) error {
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: namespace,
 			Name:      name,
+			Labels: map[string]string{
+				"maistra.io/expose-route": "true",
+			},
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: int32Ptr(1),

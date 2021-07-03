@@ -8,6 +8,16 @@ kind: Namespace
 metadata:
   name: serving-tests-alt
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: serverless-tests
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: serverless-tests2
+---
 apiVersion: maistra.io/v1
 kind: ServiceMeshMemberRoll
 metadata:

@@ -119,6 +119,7 @@ function downstream_serving_e2e_tests {
 
   tags="e2e,kourier"
   if [[ $FULL_MESH == "true" ]]; then
+    export GODEBUG="x509ignoreCN=0"
     tags="e2e"
   fi
 
