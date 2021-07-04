@@ -165,9 +165,6 @@ func CreateDeployment(ctx *Context, name, namespace, image string) error {
 		ObjectMeta: metav1.ObjectMeta{
 			Namespace: namespace,
 			Name:      name,
-			Labels: map[string]string{
-				"maistra.io/expose-route": "true",
-			},
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: int32Ptr(1),
@@ -179,10 +176,8 @@ func CreateDeployment(ctx *Context, name, namespace, image string) error {
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: map[string]string{
-						"app": name,
-					},
-					Annotations: map[string]string{
-						"sidecar.istio.io/inject": "true",
+						"app":                     name,
+						"maistra.io/expose-route": "true",
 					},
 				},
 				Spec: corev1.PodSpec{
