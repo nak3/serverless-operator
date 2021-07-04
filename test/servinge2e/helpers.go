@@ -2,6 +2,8 @@ package servinge2e
 
 import (
 	"context"
+	"crypto/tls"
+	"net/http"
 	"net/url"
 	"testing"
 
@@ -21,7 +23,12 @@ func WaitForRouteServingText(t *testing.T, caCtx *test.Context, routeURL *url.UR
 		routeURL,
 		pkgTest.EventuallyMatchesBody(expectedText),
 		"WaitForRouteToServeText",
-		true); err != nil {
+		true,
+		func(transport *http.Transport) *http.Transport {
+			transport.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+			return transport
+		},
+	); err != nil {
 		t.Fatalf("The Route at domain %s didn't serve the expected text \"%s\": %v", routeURL, expectedText, err)
 	}
 }
