@@ -196,6 +196,13 @@ func makeKnService(image string, instance *servingv1alpha1.KnativeServing) *serv
 			},
 		},
 	}
+
+	if instance != nil && instance.Spec.Ingress != nil && instance.Spec.Ingress.Istio.Enabled {
+		service.Annotations["serving.knative.openshift.io/enablePassthrough"] = "true"
+		service.Spec.Template.Annotations["sidecar.istio.io/inject"] = "true"
+		service.Spec.Template.Annotations["sidecar.istio.io/rewriteAppHTTPProbers"] = "true"
+	}
+
 	return service
 }
 
