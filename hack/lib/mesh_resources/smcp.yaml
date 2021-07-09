@@ -7,11 +7,13 @@ spec:
   profiles:
   - default
   proxy:
+    runtime:
+      readiness:
+        rewriteApplicationProbes: true
     networking:
       trafficControl:
         inbound:
           excludedPorts:
-          - 15020
           - 8444
     accessLogging:
       file:
